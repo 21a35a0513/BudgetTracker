@@ -1,0 +1,78 @@
+class BudgetTracker:
+    def __init__(self):
+        self.expenses = []
+        self.total_income = 0.0  # Initialize total income to zero
+
+    def set_income(self, income):
+        """Sets the total income."""
+        self.total_income = income
+        print(f"Total income set to: ${income:.2f}")
+
+    def add_expense(self, description, amount):
+        """Adds an expense to the tracker."""
+        expense = {'description': description, 'amount': amount}
+        self.expenses.append(expense)
+        print(f"Added: {description} - ${amount:.2f}")
+
+    def view_expenses(self):
+        """Displays all expenses and the remaining balance."""
+        if not self.expenses:
+            print("No expenses recorded.")
+            return
+        total_expenses = sum(expense['amount'] for expense in self.expenses)
+        remaining_balance = self.total_income - total_expenses
+
+        print("\nExpenses:")
+        for i, expense in enumerate(self.expenses, start=1):
+            print(f"{i}. {expense['description']} - ${expense['amount']:.2f}")
+        print(f"Total Expenses: ${total_expenses:.2f}")
+        print(f"Total Income: ${self.total_income:.2f}")
+        print(f"Remaining Balance: ${remaining_balance:.2f}\n")
+
+    def delete_expense(self, index):
+        """Deletes an expense by index."""
+        if 0 <= index < len(self.expenses):
+            removed = self.expenses.pop(index)
+            print(f"Deleted: {removed['description']} - ${removed['amount']:.2f}")
+        else:
+            print("Invalid index. Please try again.")
+
+def main():
+    tracker = BudgetTracker()
+
+    while True:
+        print("\nBudget Tracker")
+        print("1. Set Income")
+        print("2. Add Expense")
+        print("3. View Expenses")
+        print("4. Delete Expense")
+        print("5. Exit")
+
+        choice = input("Choose an option: ")
+
+        if choice == '1':
+            income = float(input("Enter your total income: "))
+            tracker.set_income(income)
+
+        elif choice == '2':
+            description = input("Enter expense description: ")
+            amount = float(input("Enter amount: "))
+            tracker.add_expense(description, amount)
+
+        elif choice == '3':
+            tracker.view_expenses()
+
+        elif choice == '4':
+            tracker.view_expenses()
+            index = int(input("Enter the number of the expense to delete: ")) - 1
+            tracker.delete_expense(index)
+
+        elif choice == '5':
+            print("Exiting Budget Tracker. Goodbye!")
+            break
+
+        else:
+            print("Invalid option. Please try again.")
+
+if __name__ == "__main__":
+    main()
